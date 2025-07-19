@@ -9,8 +9,8 @@ interface Order {
   id: string;
   sellerId: string;
   buyerId: string;
-  product: string;
-  deliveryInfo: { address: string };
+  productId: string;
+  deliveryInfo: string;
   createdAt: string;
   status: string;
   [key: string]: unknown; // Allow additional fields
@@ -37,6 +37,9 @@ export default function Orders() {
   const [searchStatus, setSearchStatus] = useState("");
   const [statuses, setStatuses] = useState<{ [key: string]: string }>({});
   const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
+  const [products, setProducts] = useState<{
+    [key: string]: { name: string; [key: string]: unknown };
+  }>({});
 
   // Define status options
   const statusOptions = [
@@ -51,6 +54,7 @@ export default function Orders() {
     const ordersRef = ref(database, "orders");
     const sellersRef = ref(database, "sellers");
     const buyersRef = ref(database, "buyers");
+    const productsRef = ref(database, "products");
 
     onValue(
       ordersRef,
@@ -60,6 +64,7 @@ export default function Orders() {
         if (snapshot.exists()) {
           snapshot.forEach((childSnapshot) => {
             const data = childSnapshot.val();
+            console.log("Order data:", data);
             ordersData.push({
               id: childSnapshot.key || "",
               sellerId: data.sellerId || "",
@@ -116,6 +121,26 @@ export default function Orders() {
       },
       (error) => console.error("Buyers error:", error)
     );
+
+    onValue(
+      productsRef,
+      (snapshot) => {
+        const productsData: {
+          [key: string]: { name: string; [key: string]: unknown };
+        } = {};
+        if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+            const data = childSnapshot.val();
+            productsData[childSnapshot.key || ""] = {
+              name: data.name || "Unknown",
+              ...data,
+            };
+          });
+        }
+        setProducts(productsData); // Add this state (define below)
+      },
+      (error) => console.error("Products error:", error)
+    );
   }, []);
 
   // Add function to update status
@@ -142,15 +167,19 @@ export default function Orders() {
   });
 
   // Map seller and buyer details
-  const ordersWithDetails = filteredOrders.map((order) => ({
-    ...order,
-    sellerName: sellers[order.sellerId]?.sellerName || "Unknown",
-    sellerPhone: sellers[order.sellerId]?.phone || "Unknown",
-    buyerName: buyers[order.buyerId]?.name || "Unknown",
-    buyerPhone: buyers[order.buyerId]?.phone || "Unknown",
-    deliveryAddress: order.deliveryInfo.address || "Unknown",
-    orderDate: order.createdAt || "N/A",
-  }));
+  const ordersWithDetails = filteredOrders.map((order) => {
+    const product = products[order.productId] || { name: "Unknown" };
+    return {
+      ...order,
+      sellerName: sellers[order.sellerId]?.sellerName || "Unknown",
+      sellerPhone: sellers[order.sellerId]?.phone || "Unknown",
+      buyerName: buyers[order.buyerId]?.name || "Unknown",
+      buyerPhone: buyers[order.buyerId]?.phone || "Unknown",
+      product: product.name, // Use product name from productsData
+      deliveryAddress: order.deliveryInfo || "Unknown",
+      orderDate: order.createdAt || "N/A",
+    };
+  });
 
   return (
     <div className="flex h-screen bg-gray-100">
