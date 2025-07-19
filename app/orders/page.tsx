@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { database } from "@/lib/firebase";
-import { ref, onValue, set, get } from "firebase/database";
+import { ref, onValue, set } from "firebase/database";
 import Header from "@/components/Header";
 import Sidenav from "@/components/Sidenav";
 interface Order {
@@ -13,7 +13,7 @@ interface Order {
   deliveryInfo: { address: string };
   createdAt: string;
   status: string;
-  [key: string]: any; // Allow additional fields
+  [key: string]: unknown; // Allow additional fields
 }
 
 interface Seller {

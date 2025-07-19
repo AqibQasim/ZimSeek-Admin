@@ -12,7 +12,7 @@ interface Inquiry {
   buyerId: string;
   message: string;
   timestamp: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface Buyer {
@@ -26,12 +26,10 @@ export default function BuyerInquiries() {
   const { id } = useParams();
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [buyer, setBuyer] = useState<Buyer | null>(null);
-  const [buyers, setBuyers] = useState<{ [key: string]: Buyer }>({});
 
   useEffect(() => {
     const inquiriesRef = ref(database, "inquiries");
     const buyerRef = ref(database, "buyers/" + id);
-    const buyersRef = ref(database, "buyers");
 
     onValue(
       inquiriesRef,
@@ -67,26 +65,6 @@ export default function BuyerInquiries() {
         });
       }
     });
-
-    onValue(
-      buyersRef,
-      (snapshot) => {
-        const buyersData: { [key: string]: Buyer } = {};
-        if (snapshot.exists()) {
-          snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            buyersData[childSnapshot.key || ""] = {
-              id: childSnapshot.key || "",
-              name: data.name || "Unknown",
-              phone: data.phone || "",
-              joinedDate: data.joinedDate || "",
-            };
-          });
-        }
-        setBuyers(buyersData);
-      },
-      (error) => console.error("Buyers error:", error)
-    );
   }, [id]);
 
   const buyerName = buyer ? buyer.name : "Unknown";

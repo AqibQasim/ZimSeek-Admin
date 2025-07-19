@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 export default function Sidenav() {
   return (
@@ -7,29 +8,34 @@ export default function Sidenav() {
       <nav>
         <ul>
           <li className="mb-4">
-            <a href="#" className="hover:text-gray-300">
+            {/* <a href="#" className="hover:text-gray-300">
               Dashboard
-            </a>
+            </a> */}
+            <Link href="/">Dashboard</Link>
           </li>
           <li className="mb-4">
-            <a href="/sellers" className="hover:text-gray-300">
+            {/* <a href="/sellers" className="hover:text-gray-300">
               Sellers
-            </a>
+            </a> */}
+            <Link href="/sellers">Sellers</Link>
           </li>
           <li className="mb-4">
-            <a href="/buyers" className="hover:text-gray-300">
+            {/* <a href="/buyers" className="hover:text-gray-300">
               Buyers
-            </a>
+            </a> */}
+            <Link href="/buyers">Buyers</Link>
           </li>
           <li className="mb-4">
-            <a href="/products" className="hover:text-gray-300">
+            {/* <a href="/products" className="hover:text-gray-300">
               Products
-            </a>
+            </a> */}
+            <Link href="/products">Products</Link>
           </li>
           <li className="mb-4">
-            <a href="/orders" className="hover:text-gray-300">
+            {/* <a href="/orders" className="hover:text-gray-300">
               Orders
-            </a>
+            </a> */}
+            <Link href="/orders">Orders</Link>
           </li>
         </ul>
       </nav>

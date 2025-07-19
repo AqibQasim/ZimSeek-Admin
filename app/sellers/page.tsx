@@ -20,7 +20,7 @@ interface Seller {
   location: Location;
   email: string;
   businessType: string;
-  [key: string]: any; // Allow additional fields
+  [key: string]: unknown; // Allow additional fields
 }
 
 export default function Sellers() {

@@ -13,7 +13,7 @@ interface Product {
   unit: string;
   city: string;
   sellerId: string;
-  [key: string]: any; // Allow additional fields
+  [key: string]: unknown; // Allow additional fields
 }
 
 interface Seller {

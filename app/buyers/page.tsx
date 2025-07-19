@@ -12,7 +12,7 @@ interface Buyer {
   name: string;
   phone: string;
   createdAt?: string;
-  [key: string]: any; // Allow additional fields
+  [key: string]: unknown; // Allow additional fields
 }
 
 export default function Buyers() {

@@ -15,7 +15,7 @@ interface Product {
   unit: string;
   city: string;
   sellerId: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface Seller {

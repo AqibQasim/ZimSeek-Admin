@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { database } from "@/lib/firebase";
 import { ref, onValue } from "firebase/database";
 import { Line } from "react-chartjs-2";
+import { DataSnapshot } from "firebase/database";
+import Link from "next/link";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -14,7 +16,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Sidenav from "@/components/Sidenav";
 
@@ -48,7 +49,6 @@ interface TrendData {
 }
 
 export default function Dashboard() {
-  const router = useRouter();
   const [stats, setStats] = useState<Stats>({
     sellers: 0,
     buyers: 0,
@@ -116,13 +116,13 @@ export default function Dashboard() {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const processData = (snapshot: any, type: keyof Stats) => {
+    const processData = (snapshot: DataSnapshot, type: keyof Stats) => {
       let totalCount = 0;
-      let dailyCounts: number[] = new Array(7).fill(0);
-      let labels: string[] = [];
+      const dailyCounts: number[] = new Array(7).fill(0);
+      const labels: string[] = [];
 
       if (snapshot.exists()) {
-        snapshot.forEach((childSnapshot: any) => {
+        snapshot.forEach((childSnapshot: DataSnapshot) => {
           totalCount++; // Count total children
           const data = childSnapshot.val();
           const createdAt = data.createdAt ? new Date(data.createdAt) : null;
@@ -185,7 +185,7 @@ export default function Dashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <a href="/sellers">
+          <Link href="/sellers">
             <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-lg font-semibold text-gray-700">
                 Total Sellers
@@ -194,8 +194,8 @@ export default function Dashboard() {
                 {stats.sellers}
               </p>
             </div>
-          </a>
-          <a href="/buyers">
+          </Link>
+          <Link href="/buyers">
             <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-lg font-semibold text-gray-700">
                 Total Buyers
@@ -204,8 +204,8 @@ export default function Dashboard() {
                 {stats.buyers}
               </p>
             </div>
-          </a>
-          <a href="/products">
+          </Link>
+          <Link href="/products">
             <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-lg font-semibold text-gray-700">
                 Total Products
@@ -214,8 +214,8 @@ export default function Dashboard() {
                 {stats.products}
               </p>
             </div>
-          </a>
-          <a href="/orders">
+          </Link>
+          <Link href="/orders">
             <div className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow duration-300">
               <h3 className="text-lg font-semibold text-gray-700">
                 Total Orders
@@ -224,7 +224,7 @@ export default function Dashboard() {
                 {stats.orders}
               </p>
             </div>
-          </a>
+          </Link>
         </div>
 
         {/* Charts Section */}

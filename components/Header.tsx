@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const Header = (props: { [key: string]: any }) => {
+const Header = (props: { name?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 

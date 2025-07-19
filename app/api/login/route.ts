@@ -25,8 +25,11 @@ export async function POST(request: Request) {
       secure: process.env.NODE_ENV === "production" 
     });
     return response;
-  } catch (error: any) {
+  }catch (error: unknown) {
+  if (error instanceof Error) {
     console.error("Login error:", error);
     return NextResponse.json({ message: error.message || "Invalid credentials" }, { status: 401 });
   }
+  return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
+}
 }
