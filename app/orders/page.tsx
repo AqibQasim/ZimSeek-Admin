@@ -176,7 +176,10 @@ export default function Orders() {
       buyerName: buyers[order.buyerId]?.name || "Unknown",
       buyerPhone: buyers[order.buyerId]?.phone || "Unknown",
       product: product.name, // Use product name from productsData
-      quantity: order.quantity || 1,
+      quantity:
+        typeof order.quantity === "number"
+          ? order.quantity
+          : Number(order.quantity) || 1,
       deliveryAddress: order.deliveryInfo || "Unknown",
       orderDate: order.createdAt || "N/A",
     };
