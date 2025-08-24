@@ -87,6 +87,7 @@ export default function Buyers() {
               <tr className="bg-gray-200">
                 <th className="p-3">Name</th>
                 <th className="p-3">Phone</th>
+                <th className="p-3">Email</th>
                 <th className="p-3">Joined Date</th>
               </tr>
             </thead>
@@ -99,6 +100,7 @@ export default function Buyers() {
                 >
                   <td className="p-3">{buyer.name}</td>
                   <td className="p-3">{buyer.phone}</td>
+                  <td className="p-3">{(buyer.email as string) || "N/A"}</td>
                   <td className="p-3">
                     {buyer.createdAt
                       ? new Date(buyer.createdAt).toLocaleDateString("en-US", {

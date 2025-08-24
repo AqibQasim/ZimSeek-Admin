@@ -176,6 +176,7 @@ export default function Orders() {
       buyerName: buyers[order.buyerId]?.name || "Unknown",
       buyerPhone: buyers[order.buyerId]?.phone || "Unknown",
       product: product.name, // Use product name from productsData
+      quantity: order.quantity || 1,
       deliveryAddress: order.deliveryInfo || "Unknown",
       orderDate: order.createdAt || "N/A",
     };
@@ -227,6 +228,7 @@ export default function Orders() {
                 <th className="p-3">Buyer Name</th>
                 <th className="p-3">Buyer Phone</th>
                 <th className="p-3">Product</th>
+                <th className="p-3">Quantity</th>
                 <th className="p-3">Delivery Address</th>
                 <th className="p-3">Order Date</th>
                 <th className="p-3">Status</th>
@@ -241,6 +243,7 @@ export default function Orders() {
                   <td className="p-3">{order.buyerName}</td>
                   <td className="p-3">{order.buyerPhone}</td>
                   <td className="p-3">{order.product}</td>
+                  <td className="p-3">{order.quantity}</td>
                   <td className="p-3">{order.deliveryAddress}</td>
                   <td className="p-3">{order.orderDate}</td>
                   <td className="p-3">
